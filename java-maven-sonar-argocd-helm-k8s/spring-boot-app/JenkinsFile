@@ -30,6 +30,7 @@ pipeline {
       }
     }*/
     stage('Build and Push Docker Image') {
+agent any
       environment {
         DOCKER_IMAGE = "niranjan9700/ultimate-cicd:${BUILD_NUMBER}"
         //PATH = "/usr/bin:/usr/local/bin:${env.PATH}"
