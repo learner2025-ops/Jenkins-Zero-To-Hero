@@ -39,8 +39,6 @@ pipeline {
       steps {
         script {
             sh '''
-            which docker
-            docker --version
             cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
             docker build -t ${DOCKER_IMAGE} .
             '''
