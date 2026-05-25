@@ -39,11 +39,7 @@ pipeline {
       steps {
         script {
             sh '''
-            echo $PATH
-                ls -l /usr/bin/docker
-                /usr/bin/docker --version
-
-                cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
+                cd /var/lib/jenkins/workspace/full_ci_pipeline/java-maven-sonar-argocd-helm-k8s/spring-boot-app
 
                 /usr/bin/docker build -t ${DOCKER_IMAGE} .
             '''
