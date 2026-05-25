@@ -28,7 +28,7 @@ pipeline {
           sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
         }
       }
-    }*/
+    }
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "niranjan9700/ultimate-cicd:${BUILD_NUMBER}"
@@ -49,7 +49,33 @@ pipeline {
             }
         }
       }
+    }*/
+stage('Build and Push Docker Image') {
+
+    environment {
+        DOCKER_IMAGE = "niranjan9700/ultimate-cicd:${BUILD_NUMBER}"
     }
+
+    steps {
+
+        withCredentials([usernamePassword(
+            credentialsId: 'docker-cred',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+
+            sh '''
+                cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
+
+                docker build -t ${DOCKER_IMAGE} .
+
+                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+                docker push ${DOCKER_IMAGE}
+            '''
+        }
+    }
+}
     stage('Update Deployment File') {
         environment {
             GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
