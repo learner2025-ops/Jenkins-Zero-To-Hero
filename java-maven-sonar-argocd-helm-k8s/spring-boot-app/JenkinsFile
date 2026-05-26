@@ -70,6 +70,13 @@ agent {
             GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
             GIT_USER_NAME = "learner2025-ops"
         }
+steps {
+    sh '''
+        apt-get update
+        apt-get install -y git
+        git --version
+    '''
+}
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
