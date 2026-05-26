@@ -58,6 +58,15 @@ stage('Install Docker') {
         }
       }
     }
+stage('Install git'){
+steps {
+    sh '''
+        apt-get update
+        apt-get install -y git
+        git --version
+    '''
+}
+}
     stage('Update Deployment File') {
 agent {
                 docker {
@@ -70,13 +79,6 @@ agent {
             GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
             GIT_USER_NAME = "learner2025-ops"
         }
-steps {
-    sh '''
-        apt-get update
-        apt-get install -y git
-        git --version
-    '''
-}
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
